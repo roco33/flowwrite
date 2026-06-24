@@ -4,6 +4,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+📥 **[下载 flowwrite.html](https://github.com/roco33/flowwrite/releases/latest)** —— 双击即可使用，无需安装
+
 ## ✨ 特性
 
 - **零安装**：构建产物是单个 `flowwrite.html`（~310KB），双击在浏览器打开即用
@@ -31,7 +33,9 @@
 
 ### 直接使用（无需开发环境）
 
-下载 [`dist/flowwrite.html`](./dist/flowwrite.html)，双击用浏览器打开即可。
+前往 [Releases 页面](https://github.com/roco33/flowwrite/releases/latest) 下载 `flowwrite.html`，双击用浏览器打开即可。
+
+> 💡 如果已有 Node.js 环境，也可从源码构建获取最新版本：
 
 ### 从源码构建
 
@@ -44,7 +48,7 @@ npm run dev
 
 # 构建单 HTML 文件
 npm run build
-# 产物：dist/flowwrite.html
+# 产物：dist/flowwrite.html（已被 .gitignore 排除，不进入版本库）
 ```
 
 ## 🛠 技术栈
@@ -94,9 +98,10 @@ flowwrite/
 ├── tests/
 │   ├── unit/            # Vitest 单元测试
 │   └── e2e/             # Playwright 端到端测试
-├── scripts/             # 构建后处理
-└── dist/                # 构建产物（gitignore）
+└── scripts/             # 构建后处理
 ```
+
+> `dist/` 目录为构建产物，已通过 `.gitignore` 排除，不纳入版本库。可从 [Releases](https://github.com/roco33/flowwrite/releases/latest) 直接下载，或运行 `npm run build` 生成。
 
 ## 📄 协议
 
