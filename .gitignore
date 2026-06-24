@@ -1,0 +1,15 @@
+node_modules
+dist
+.DS_Store
+*.log
+.vscode
+.idea
+.env
+.env.local
+.test-output
+coverage
+test-results
+
+# 本地工具数据
+.codegraph
+.reasonix

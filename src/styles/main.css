@@ -1,0 +1,63 @@
+:root {
+  color-scheme: light dark;
+}
+
+/* —— 主题：暖纸（默认 / 浅色）—— */
+:root,
+[data-theme='light'] {
+  --flow-bg: #faf8f3;
+  --flow-bg-elevated: #fffdf7;
+  --flow-fg: #1a1a1a;
+  --flow-fg-muted: #6b7280;
+  --flow-border: #e5e1d8;
+  --flow-hover-bg: #f0ebe0;
+  --flow-active-bg: #ebe5d8;
+  --flow-accent: #2563eb;
+  --flow-code-bg: #f5f2ec;
+  --flow-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* —— 主题：深色 —— */
+[data-theme='dark'] {
+  --flow-bg: #1a1a1a;
+  --flow-bg-elevated: #242424;
+  --flow-fg: #e8e8e8;
+  --flow-fg-muted: #999;
+  --flow-border: #333;
+  --flow-hover-bg: #2a2a2a;
+  --flow-active-bg: #3a3a3a;
+  --flow-accent: #60a5fa;
+  --flow-code-bg: #2a2a2a;
+  --flow-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC',
+    'Microsoft YaHei', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--flow-bg);
+  color: var(--flow-fg);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+#app {
+  height: 100%;
+}
+
+button {
+  font-family: inherit;
+}

@@ -1,0 +1,6 @@
+export { attachHistory } from './history'
+export { attachMarkdownShortcuts, FLOW_TRANSFORMERS } from './markdownShortcut'
+export { attachAutoFormatEnter } from './autoFormatEnter'
+export { attachBackspaceConsume } from './backspaceConsume'
+export { attachClearFormat } from './clearFormat'
+export { attachTablePlugin } from './tablePlugin'
