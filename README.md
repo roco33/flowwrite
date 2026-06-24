@@ -2,6 +2,8 @@
 
 > 极致轻量的 Markdown 编辑器 —— 单 HTML 文件，双击即用，离线可用。
 
+Special Thanks to GLM-5.2 （本行是我手打的）
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 📥 **[下载 flowwrite.html](https://github.com/roco33/flowwrite/releases/latest)** —— 双击即可使用，无需安装
@@ -19,7 +21,7 @@
 ## 🎮 快捷键
 
 | 快捷键 | 功能 |
-|--------|------|
+| --- | --- |
 | `Ctrl+O` | 打开 .md 文件 |
 | `Ctrl+S` | 导出为 .md 文件 |
 | `Ctrl+N` | 新建文档 |
@@ -28,6 +30,7 @@
 | `Ctrl+I` | 斜体 |
 | `Ctrl+\` | 清除格式 |
 | `F2` | 切换主题 |
+
 
 ## 🚀 使用
 
@@ -54,7 +57,7 @@ npm run build
 ## 🛠 技术栈
 
 | 层 | 选型 | 说明 |
-|----|------|------|
+| --- | --- | --- |
 | 框架 | Svelte 5 | runes 模式，编译时优化 |
 | 编辑器内核 | Lexical | Meta 出品，原生撤销栈，IME/光标管理完善 |
 | Markdown | markdown-it + 自定义 transformer | GFM 表格双向转换 |
@@ -63,13 +66,15 @@ npm run build
 | 语言 | TypeScript | strict 模式 |
 | 测试 | Vitest + Playwright | 单元测试 + 端到端 |
 
+
 ## 📦 体积预算
 
 | 项目 | 体积 |
-|------|------|
+| --- | --- |
 | 构建产物（flowwrite.html） | ~310 KB |
 | gzip 后 | ~100 KB |
 | 预算上限 | 400 KB |
+
 
 ## 🧪 测试
 
@@ -100,8 +105,6 @@ flowwrite/
 │   └── e2e/             # Playwright 端到端测试
 └── scripts/             # 构建后处理
 ```
-
-> `dist/` 目录为构建产物，已通过 `.gitignore` 排除，不纳入版本库。可从 [Releases](https://github.com/roco33/flowwrite/releases/latest) 直接下载，或运行 `npm run build` 生成。
 
 ## 📄 协议
 
