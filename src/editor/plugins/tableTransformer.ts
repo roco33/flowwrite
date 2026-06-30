@@ -4,9 +4,18 @@ import {
   type ElementNode,
   type LexicalNode,
 } from 'lexical'
-import type {
-  ElementTransformer,
-  MultilineElementTransformer,
+import {
+  $convertFromMarkdownString as parseMarkdownInline,
+  BOLD_ITALIC_STAR,
+  BOLD_STAR,
+  HIGHLIGHT,
+  INLINE_CODE,
+  ITALIC_STAR,
+  LINK,
+  STRIKETHROUGH,
+  type ElementTransformer,
+  type MultilineElementTransformer,
+  type Transformer,
 } from '@lexical/markdown'
 import {
   $createTableNode,
@@ -17,6 +26,57 @@ import {
   TableNode,
   TableRowNode,
 } from '@lexical/table'
+
+// 仅行内格式 transformer：用于解析单元格内的 **bold**、*italic*、`code`、[link](url) 等。
+// 刻意排除段落级 transformer（heading/quote/list/code-block），避免单元格内容被误判为块级结构。
+const CELL_INLINE_TRANSFORMERS: Transformer[] = [
+  BOLD_ITALIC_STAR,
+  BOLD_STAR,
+  ITALIC_STAR,
+  STRIKETHROUGH,
+  HIGHLIGHT,
+  INLINE_CODE,
+  LINK,
+]
+
+/**
+ * 把单元格文本解析成带行内格式的节点，append 到给定段落。
+ * 单元格内容应是纯行内格式（无块级结构），所以只走行内 transformer。
+ * 空字符串保留空 TextNode，保证单元格始终可编辑。
+ *
+ * $convertFromMarkdownString(text, transformers, node) 会清空 node 并把解析结果
+ * append 进去——而 $importBlocks 每行都会自建一个 ParagraphNode 装 TextNode。
+ * 单元格文本只有一行，所以 buffer 下只会挂一个段落。这里要把那个段落的叶子
+ * 节点（TextNode / LinkNode 等行内节点）搬进 cell 自己的段落，避免
+ * TableCell > Paragraph > Paragraph 的非法嵌套。
+ */
+function appendInlineContent(paragraph: ReturnType<typeof $createParagraphNode>, text: string): void {
+  if (text.trim() === '') {
+    paragraph.append($createTextNode(text))
+    return
+  }
+  const buffer = $createParagraphNode()
+  parseMarkdownInline(text, CELL_INLINE_TRANSFORMERS, buffer)
+  const innerParagraphs = buffer.getChildren()
+  if (innerParagraphs.length === 0) {
+    paragraph.append($createTextNode(text))
+    return
+  }
+  // 把每个内部段落的叶子节点搬到 cell 段落里。
+  const leaves: LexicalNode[] = []
+  for (const para of innerParagraphs) {
+    if ('getChildren' in para && typeof (para as { getChildren: unknown }).getChildren === 'function') {
+      leaves.push(...(para as ElementNode).getChildren())
+    } else {
+      leaves.push(para)
+    }
+  }
+  if (leaves.length === 0) {
+    paragraph.append($createTextNode(text))
+    return
+  }
+  paragraph.append(...leaves)
+}
 
 // 表头行：| a | b |
 const HEADER_LINE = /^\|(.+)\|\s*$/
@@ -83,7 +143,7 @@ const TABLE_IMPORTER: MultilineElementTransformer = {
     for (let c = 0; c < colCount; c++) {
       const cell = $createTableCellNode(TableCellHeaderStates.COLUMN)
       const p = $createParagraphNode()
-      p.append($createTextNode(headerCells[c] ?? ''))
+      appendInlineContent(p, headerCells[c] ?? '')
       cell.append(p)
       headerRow.append(cell)
     }
@@ -96,7 +156,7 @@ const TABLE_IMPORTER: MultilineElementTransformer = {
       for (let c = 0; c < colCount; c++) {
         const cell = $createTableCellNode(TableCellHeaderStates.NO_STATUS)
         const p = $createParagraphNode()
-        p.append($createTextNode(cells[c] ?? ''))
+        appendInlineContent(p, cells[c] ?? '')
         cell.append(p)
         row.append(cell)
       }
